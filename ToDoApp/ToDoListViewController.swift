@@ -11,10 +11,14 @@ import UIKit
 class ToDoListViewController: UITableViewController{
 
     var itemArray : [String] = ["Buy eggs", "Pump gasoline", "Call mother"]
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let item = defaults.array(forKey: "TodoListArray") as? [String]{
+             itemArray = item
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,6 +55,7 @@ class ToDoListViewController: UITableViewController{
         
         let action = UIAlertAction(title: "Add Item", style: UIAlertActionStyle.default, handler: { (alert) in
             self.itemArray.append(addItemTextField.text!)
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()
         })
         
